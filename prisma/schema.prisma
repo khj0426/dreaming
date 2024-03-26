@@ -1,0 +1,53 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Member {
+  //고유키
+  id       String   @id @default(cuid())
+  name     String?
+  email    String   @unique
+  picture  String?
+  nickname String?
+  point    Int      @default(0)
+  comments Comment[]
+}
+
+model Diary {
+  id       String    @id @default(cuid())
+  title    String
+  comments Comment[]
+  date     DateTime
+  like     Int       @default(0)
+  isShare  Boolean   @default(false)
+}
+
+//댓글 모델
+model Comment {
+  //기본키
+  id       String   @id @default(cuid())
+  contents String
+  //Member의 ID를 writerID로서 참조한다.(외래 키)
+  writer   Member   @relation(fields: [writerId], references: [id])
+  writerId String
+  //parent필드가 다른 Comment를 참조한다. (parentId가 다른 Comment의 id를 참조한다. 외래키)
+  parent   Comment? @relation("ParentChild", fields: [parentId], references: [id], map: "CommentParent_FK")
+  parentId String?
+  //마찬가지
+  children Comment[] @relation("ParentChild")
+  diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK")
+  diaryId  String
+}
+
+
+model Dictionary {
+  id       String @id @default(cuid())
+  category String
+  title    String
+  contents String
+}
