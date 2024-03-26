@@ -25,6 +25,8 @@ model Diary {
   date     DateTime
   like     Int       @default(0)
   isShare  Boolean   @default(false)
+  created_At DateTime?
+  updated_At DateTime?
 }
 
 //댓글 모델
@@ -42,6 +44,8 @@ model Comment {
   children Comment[] @relation("ParentChild")
   diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK")
   diaryId  String
+  created_At DateTime?
+  updated_At DateTime?
 }
 
 
