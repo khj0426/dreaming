@@ -1,5 +1,5 @@
 'use client';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 
 const KakaoLogout = () => {
@@ -12,9 +12,11 @@ const KakaoLogout = () => {
     });
   };
 
-  <button className="border-2 p-2" onClick={handleKakaoLogout}>
-    카카오 로그아웃
-  </button>;
+  return (
+    <button className="border-2 p-2" onClick={handleKakaoLogout}>
+      카카오 로그아웃
+    </button>
+  );
 };
 
 export { KakaoLogout };

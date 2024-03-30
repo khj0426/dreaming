@@ -19,10 +19,6 @@ const handler = NextAuth({
   pages: {
     signIn: '/auth/signIn',
   },
-  session: {
-    maxAge: -1,
-    updateAge: 24 * 60 * 60,
-  },
   logger: {},
   providers: [
     KakaoProvider({
@@ -35,20 +31,22 @@ const handler = NextAuth({
   ],
   callbacks: {
     async jwt({ token, account, profile, user }) {
-      const { kakao_account } = profile as KakaoUser;
-      await createNewUser({
-        id: user.id + '',
-        image: kakao_account.profile.profile_image_url,
-        email: kakao_account.email,
-        name: kakao_account.profile.nickname,
-      });
-      return token;
+      try {
+        const { kakao_account } = profile as KakaoUser;
+        await createNewUser({
+          id: user.id + '',
+          image: kakao_account.profile.profile_image_url,
+          email: kakao_account.email,
+          name: kakao_account.profile.nickname,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+      return { ...token, ...user };
     },
     async session({ session, token }) {
-      return {
-        ...session,
-        ...token,
-      };
+      session.user = token;
+      return session;
     },
   },
 });
