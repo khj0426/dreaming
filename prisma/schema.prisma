@@ -11,11 +11,12 @@ model Member {
   //고유키
   id       String   @id @default(cuid())
   name     String?
-  email    String   @unique
+  email    String?   @unique
   picture  String?
   nickname String?
   point    Int      @default(0)
   comments Comment[]
+  refreshToken String?  @unique 
 }
 
 model Diary {

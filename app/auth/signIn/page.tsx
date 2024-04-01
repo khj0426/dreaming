@@ -1,7 +1,12 @@
-import KakaoLoginButton from '../../components/kakaoLoginButton';
+import { KakaoLoginButton } from '../../components/Kakao/Login';
+import { KakaoLogout } from '../../components/Kakao/Logout';
 
 const SignIn = () => {
-  return <KakaoLoginButton />;
+  return (
+    <div>
+      <KakaoLoginButton /> <KakaoLogout />
+    </div>
+  );
 };
 
 export default SignIn;
