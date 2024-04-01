@@ -1,10 +1,11 @@
 //app/api/auth/[...nextauth]/route.ts
+import { makeToken, makeRefreshToken } from '../../../lib/token';
 
-import { refreshKakaoAccessToken } from '../../../lib/oauth';
 import NextAuth from 'next-auth/next';
 import KakaoProvider from 'next-auth/providers/kakao';
 import { createNewUser } from '../../../lib/user';
 import type { DefaultUser } from 'next-auth';
+import { cookies } from 'next/headers';
 
 interface KakaoUser extends DefaultUser {
   connected_at: string;
@@ -40,34 +41,31 @@ const handler = NextAuth({
     async jwt({ token, account, profile, user }) {
       try {
         const { kakao_account } = profile as KakaoUser;
+        const refreshToken = makeRefreshToken(user.id);
         await createNewUser({
           id: user.id + '',
           image: kakao_account.profile.profile_image_url,
           email: kakao_account.email,
           name: kakao_account.profile.nickname,
+          refreshToken,
+        });
+        cookies().set('dreaming_accessToken', makeToken(user.id), {
+          sameSite: 'strict',
+          secure: true,
+          maxAge: 60 * 24 * 24,
+          httpOnly: true,
+        });
+        cookies().set('dreaming_refreshToken', refreshToken, {
+          sameSite: 'strict',
+          secure: true,
+          maxAge: 60 * 60 * 24 * 14,
+          httpOnly: true,
         });
       } catch (e) {
         console.error(e);
       }
 
-      if (account && account.expires_at) {
-        token.accessToken = account.access_token;
-        token.refreshToken = account.refresh_token;
-        token.accessTokenExpires = account.expires_at * 1000;
-
-        const nowTime = Date.now();
-        const TEN_MINUTE_AGE = 60 * 10 * 1000;
-
-        //10분 전에 토큰을 갱신해준다.
-        const shouldRefreshTime =
-          account.expires_at * 1000 - nowTime - TEN_MINUTE_AGE;
-
-        if (shouldRefreshTime > 0) {
-          return token;
-        }
-      }
-      const newToken = await refreshKakaoAccessToken(token);
-      return newToken;
+      return token;
     },
     async session({ session, token }) {
       const sessionUser = {

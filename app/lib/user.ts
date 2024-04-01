@@ -5,6 +5,7 @@ interface createNewUserParms {
   name: string;
   email: string;
   image: string;
+  refreshToken: string;
 }
 
 const createNewUser = async ({
@@ -12,24 +13,36 @@ const createNewUser = async ({
   name,
   email,
   image,
+  refreshToken,
 }: createNewUserParms) => {
   const findUniqueUser = await prisma.member.findUnique({
     where: { id },
   });
 
   if (findUniqueUser) {
-    return findUniqueUser;
+    const updatedUser = await prisma.member.update({
+      where: {
+        id,
+      },
+      data: {
+        refreshToken,
+      },
+    });
+    return updatedUser;
   }
 
-  await prisma.member.create({
+  const newUniqueUser = await prisma.member.create({
     data: {
       id,
       name,
       email,
       picture: image,
       point: 0,
+      refreshToken,
     },
   });
+
+  return newUniqueUser;
 };
 
 export { createNewUser };
