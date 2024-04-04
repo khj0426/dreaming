@@ -6,11 +6,14 @@ import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
 
 export async function GET(req: NextRequest) {
-  const userId = verifyToken(
-    cookies().get('dreaming_accessToken')?.value ?? ''
-  ).userId;
-
-  if (!userId) {
+  const page = req.nextUrl.searchParams.get('page');
+  const pageSize = req.nextUrl.searchParams.get('pageSize');
+  try {
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+  } catch (e) {
+    console.log(e);
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -22,7 +25,14 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const getAllPosts = await getAllDiaryByUser(userId);
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+    const getAllPosts = await getAllDiaryByUser(
+      userId,
+      parseInt(page as string),
+      parseInt(pageSize as string)
+    );
 
     if (userId && getAllPosts) {
       return new Response(JSON.stringify(getAllPosts), {
