@@ -6,6 +6,7 @@ generator client {
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
+  
 }
 
 model Member {
@@ -33,6 +34,8 @@ model Diary {
   isShare  Boolean   @default(true)
   created_At String?
   updated_At String?
+  
+  @@fulltext([title,contents])
 }
 
 //댓글 모델

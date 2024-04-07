@@ -4,10 +4,12 @@ import { DIARY } from '../../../constants';
 import { isLengthInRange } from '../../../utils';
 import { createNewDiary, getAllDiaryByUser } from '../../lib/diary';
 import { cookies } from 'next/headers';
+import { addUserPoints } from '../../lib/point';
 
 export async function GET(req: NextRequest) {
   const page = req.nextUrl.searchParams.get('page');
   const pageSize = req.nextUrl.searchParams.get('pageSize');
+  const skip = (Number(page) - 1) * Number(pageSize);
   try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
@@ -30,7 +32,7 @@ export async function GET(req: NextRequest) {
     ).userId;
     const getAllPosts = await getAllDiaryByUser(
       userId,
-      parseInt(page as string),
+      parseInt(skip + ''),
       parseInt(pageSize as string)
     );
 
@@ -106,6 +108,8 @@ export async function POST(req: NextRequest) {
       isShare,
       writer: Number(decodedToken?.userId),
     });
+
+    await addUserPoints(userId + '');
     return new Response(JSON.stringify(newPost), {
       status: 200,
     });
