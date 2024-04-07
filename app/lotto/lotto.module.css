@@ -1,0 +1,192 @@
+.container {
+    width: 100vw;
+    padding-bottom: 10vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.lottoHeaderBox {
+    width: 100vw;
+    height: 25vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: conic-gradient(
+        from 7.02deg at 75.83% 162.5%,
+        #53aaaf -35.68deg,
+        #ffdc62 15.28deg,
+        #448d91 303.65deg,
+        #53aaaf 324.32deg,
+        #ffdc62 375.28deg
+    );
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
+}
+
+.lottoTitle {
+    width: 80vw;
+    margin-bottom: 0.5rem;
+
+    font-size: var(--font_size_title);
+    color: white;
+}
+
+.lottoSubtitle {
+    width: 80vw;
+
+    font-size: var(--font_size_content);
+    color: white;
+}
+
+.userBox {
+    width: 80vw;
+    margin: 3vh 0;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.username {
+    font-size: var(--font_size_title);
+    color: var(--font_color_gray3);
+}
+
+.point {
+    padding: 0.2rem 1rem;
+    font-size: var(--font_size_content);
+    border-radius: 2rem;
+
+    display: flex;
+    align-items: center;
+
+    background-color: var(--box_color_white);
+    border: 2px solid var(--secondary_color);
+    color: var(--font_color_yellow);
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
+}
+
+.point > p {
+    margin-left: 0.3rem;
+}
+
+.lottos {
+    width: 80vw;
+    height: 50vw;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+}
+
+.animate {
+    animation: rotateBall 2s ease-in-out;
+    transform-origin: center bottom; /* 회전축을 중앙 맨 아래로 설정 */
+}
+
+.lotto {
+    width: 20vw;
+    height: 20vw;
+
+    position: absolute;
+    transform-origin: 50% 35vw; /* 회전 축 조정 */
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+    background: radial-gradient(50% 50% at 50% 50%, #ffffff 0%, #f8f7ea 100%);
+    border: 1px solid var(--stroke_color);
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
+}
+
+.lotto-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    transform: rotate(0deg);
+}
+
+/* 로또 공을 원으로 배치 */
+.lotto:nth-child(1) {
+    transform: rotate(0deg) translateX(-50%);
+}
+.lotto:nth-child(2) {
+    transform: rotate(51.43deg) translateX(-50%);
+}
+.lotto:nth-child(3) {
+    transform: rotate(102.86deg) translateX(-50%);
+}
+.lotto:nth-child(4) {
+    transform: rotate(154.29deg) translateX(-50%);
+}
+.lotto:nth-child(5) {
+    transform: rotate(205.71deg) translateX(-50%);
+}
+.lotto:nth-child(6) {
+    transform: rotate(257.14deg) translateX(-50%);
+}
+.lotto:nth-child(7) {
+    transform: rotate(308.57deg) translateX(-50%);
+}
+
+/* 로또 공 안의 숫자를 정방향으로 재정렬 */
+.lotto:nth-child(1) .lottoNum {
+    transform: rotate(0deg);
+}
+.lotto:nth-child(2) .lottoNum {
+    transform: rotate(-51.43deg);
+}
+.lotto:nth-child(3) .lottoNum {
+    transform: rotate(-102.86deg);
+}
+.lotto:nth-child(4) .lottoNum {
+    transform: rotate(-154.29deg);
+}
+.lotto:nth-child(5) .lottoNum {
+    transform: rotate(-205.71deg);
+}
+.lotto:nth-child(6) .lottoNum {
+    transform: rotate(-257.14deg);
+}
+.lotto:nth-child(7) .lottoNum {
+    transform: rotate(-308.57deg);
+}
+
+.playBtn {
+    margin-top: 20vh;
+    padding: 0.5rem 2rem;
+
+    font-size: 1rem;
+
+    background: conic-gradient(
+        from 7.02deg at 75.83% 162.5%,
+        #53aaaf -35.68deg,
+        #ffdc62 15.28deg,
+        #448d91 303.65deg,
+        #53aaaf 324.32deg,
+        #ffdc62 375.28deg
+    );
+    color: white;
+    border: 1px solid var(--stroke_color);
+    border-radius: 2rem;
+    box-shadow: 0px 4px 5px rgba(0, 0, 0, 0.02);
+}
+
+@keyframes rotateBall {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
