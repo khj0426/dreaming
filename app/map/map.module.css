@@ -1,6 +1,6 @@
 .container {
     width: 100vw;
-    height: 90vh;
+    height: 88vh;
 
     display: flex;
     flex-direction: column;
@@ -55,8 +55,12 @@
 }
 
 .map {
-    width: 100vw;
+    width: 90vw;
     height: 64vh;
+
+    border-radius: var(--box_radius);
+    border: 1px solid var(--stroke_color);
+    box-shadow: var(--box_shadow2);
 
     background-color: rgb(233, 233, 233);
 }
