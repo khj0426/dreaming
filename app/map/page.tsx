@@ -5,6 +5,7 @@ import HallOfFrame from "../components/HallOfFame/HallOfFame.tsx";
 import Navbar from "../components/Navbar/Navbar.tsx";
 import LinkToDictionary from "../components/LinkToDictionary/LinkToDictionary.tsx";
 import Link from "next/link";
+import KakaoMap from "../components/KakaoMap.tsx";
 
 function MapPage() {
     return (
@@ -31,7 +32,9 @@ function MapPage() {
                     좋은 꿈을 꾸셨다면 복권 한 장 어떠신가요?
                 </div>
             </div>
-            <div className={styles.map}></div>
+            {/* <div className={styles.map}> */}
+            <KakaoMap />
+            {/* </div> */}
         </div>
     );
 }
