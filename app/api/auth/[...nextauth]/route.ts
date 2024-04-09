@@ -20,7 +20,7 @@ interface KakaoUser extends DefaultUser {
 
 const handler = NextAuth({
   pages: {
-    signIn: '/auth/signIn',
+    signIn: '/login',
   },
   session: {
     strategy: 'jwt',
