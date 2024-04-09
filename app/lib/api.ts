@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: `${process.env.NEXT_PUBLIC_URL}`,
+  baseURL: `${process.env.NEXTAUTH_URL}`,
   withCredentials: true,
   timeout: 3000,
 });
