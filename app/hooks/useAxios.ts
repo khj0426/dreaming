@@ -47,7 +47,7 @@ const useAxios = <T>(
       }
     };
     fetchData();
-  }, [url, method, requestBody]);
+  }, [url]);
 
   return {
     data,
