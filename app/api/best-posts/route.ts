@@ -5,7 +5,9 @@ export async function GET(req: NextRequest) {
   try {
     const getAllBestPosts = await prisma.diary.findMany({
       orderBy: {
-        like: 'desc',
+        like: {
+          _count: 'desc',
+        },
       },
       where: {
         isShare: true,
