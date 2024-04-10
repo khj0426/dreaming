@@ -83,7 +83,7 @@ function DiaryPage() {
                 {/* 페이지네이션 */}
                 <div className={styles.pagination}>
                     <BasicPagination
-                        count={Math.ceil(data.total / 5)}
+                        count={Math.ceil(data?.total / 5)}
                         page={page}
                         onChange={handleChangePage}
                     />
