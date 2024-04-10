@@ -79,15 +79,13 @@ function DiaryPage() {
           <p className={styles.nothing}>등록된 일기가 없습니다.</p>
         )}
 
-                {/* 페이지네이션 */}
-                <div className={styles.pagination}>
-                    <BasicPagination
-                        count={Math.ceil(data?.total / 5)}
-                        page={page}
-                        onChange={handleChangePage}
-                    />
-                </div>
-            </div>
+        {/* 페이지네이션 */}
+        <div className={styles.pagination}>
+          <BasicPagination
+            count={Math.ceil((data?.total as number) / 5)}
+            page={page}
+            onChange={handleChangePage}
+          />
         </div>
       </div>
     </div>

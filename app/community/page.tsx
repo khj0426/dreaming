@@ -22,6 +22,7 @@ interface Like {
 export interface DiaryType {
   id: string;
   title: string;
+  likes: number;
   updated_At: string;
   isShare: boolean;
   contents: string;
@@ -64,6 +65,7 @@ function CommunityPage() {
     })();
   }, [page, searchKeyword]); // 페이지 번호가 변경될 때마다 리렌더링
 
+  console.log(data);
   return (
     <div className={styles.container}>
       <div className={styles.hallOfFameBox}>
@@ -82,7 +84,7 @@ function CommunityPage() {
               title={d.title}
               isShare={d.isShare}
               contents={d.contents}
-              like={d.like?.length}
+              like={d.likes ?? 0}
               writerId={d.writerId}
               writerName={d.writerName}
               writerImage={d.writerPicture}

@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import { isLengthInRange } from '../../../utils';
 
 import { getDiariesBySearchKeyword } from '../../lib/diaries';
+import prisma from '../../../prisma/client';
+
 export async function GET(req: NextRequest) {
   const searchKeyword = req.nextUrl.searchParams.get('search');
   const page = req.nextUrl.searchParams.get('page');
@@ -22,6 +24,13 @@ export async function GET(req: NextRequest) {
       searchKeyword ?? '',
       (Number(page) - 1) * 15
     );
+
+    const likesPromises = allKeywords.diaries.map((diary) =>
+      prisma.like.count({
+        where: { diaryId: diary.id },
+      })
+    );
+
     if (allKeywords.diaries.length === 0) {
       return new Response(
         JSON.stringify({
@@ -32,9 +41,17 @@ export async function GET(req: NextRequest) {
         }
       );
     }
+
+    const likes = await Promise.all(likesPromises);
+
+    const diariesWithLikes = allKeywords.diaries.map((diary, index) => ({
+      ...diary,
+      likes: likes[index],
+    }));
+
     return new Response(
       JSON.stringify({
-        diaries: allKeywords.diaries,
+        diaries: diariesWithLikes,
         total: allKeywords.total,
       }),
       {
