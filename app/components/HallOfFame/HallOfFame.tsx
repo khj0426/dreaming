@@ -57,7 +57,13 @@ function HallOfFame() {
                     ? data?.slice(0, 3).map((d, index) => (
                           // eslint-disable-next-line react/jsx-key
                           <Link href={`/read/${d.id}`}>
-                              <div key={index} className={styles.rankBox}>
+                              <div
+                                  key={index}
+                                  className={styles.rankBox}
+                                  data-aos="flip-up"
+                                  data-aos-duration="2000"
+                                  data-aos-delay={index * 100}
+                              >
                                   <p className={styles.rank}>{index + 1}</p>
                                   <div className={styles.diary}>
                                       <p className={styles.diary_title}>
