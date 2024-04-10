@@ -25,7 +25,7 @@ export async function GET(req: NextRequest) {
 
     return NextResponse.json(
       {
-        dictionary: getKeyword.dictionary,
+        dictionaries: getKeyword.dictionary,
         total: getKeyword.total,
       },
       {

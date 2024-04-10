@@ -4,7 +4,7 @@ const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
   try {
     const getAllDiaries = await prisma.diary.count({
       where: {
-        isShare: false,
+        isShare: true,
         OR: [
           {
             title: {
@@ -19,7 +19,7 @@ const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
     });
     const getDiariesFromKeyword = await prisma.diary.findMany({
       where: {
-        isShare: false,
+        isShare: true,
         OR: [
           {
             title: {
