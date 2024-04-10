@@ -91,6 +91,15 @@ function ReadPage() {
         }
     };
 
+    // [api] 글 수정
+    const handlePostPatch = (event: React.MouseEvent<HTMLDivElement>) => {
+        // const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
+        // if (isConfirmed) {
+        //     deleteDiary(pathname);
+        //     router.back();
+        // }
+    };
+
     // [api] 로그인한 유저 정보 get 요청
     useEffect(() => {
         const checkOwner = async () => {
@@ -124,7 +133,12 @@ function ReadPage() {
                     {owner ? (
                         <>
                             <div className={styles.postBtns}>
-                                <div className={styles.postEditBtn}>수정</div>
+                                <div
+                                    className={styles.postEditBtn}
+                                    onClick={handlePostPatch}
+                                >
+                                    수정
+                                </div>
                                 <div
                                     className={styles.postDelBtn}
                                     onClick={handlePostDel}
