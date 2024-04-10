@@ -18,35 +18,35 @@ const createNewDiary = async ({
     isShare: boolean;
     like?: number;
 }) => {
-    try {
-        const getWriterInfo = await prisma.member.findUnique({
-            where: {
-                id: writer + "",
-            },
-        });
-        const newDiary = await prisma.diary.create({
-            data: {
-                writerId: writer + "",
-                isShare,
-                title: title,
-                contents: content,
-                comments: {
-                    create: [],
-                },
-
-                created_At: toKoreanTimeStamp(new Date()),
-                updated_At: toKoreanTimeStamp(new Date()),
-                like: 0,
-
-                writerName: getWriterInfo?.name,
-                writerPicture: getWriterInfo?.picture,
-            },
-        });
-        return newDiary;
-    } catch (e) {
-        throw e;
-    }
-};
+  try {
+    const getWriterInfo = await prisma.member.findUnique({
+      where: {
+        id: writer + '',
+      },
+    });
+    const newDiary = await prisma.diary.create({
+      data: {
+        writerId: writer + '',
+        isShare,
+        title: title,
+        contents: content,
+        comments: {
+          create: [],
+        },
+        created_At: toKoreanTimeStamp(new Date()),
+        updated_At: toKoreanTimeStamp(new Date()),
+        like: {
+          create: [],
+        },
+        writerName: getWriterInfo?.name,
+        writerPicture: getWriterInfo?.picture,
+      },
+    });
+    return newDiary;
+  } catch (e) {
+    throw e;
+  }
+   };
 
 const getDiaryById = async (diaryId: string) => {
     try {
@@ -111,23 +111,22 @@ const patchDiaryById = async (
     diaryId: string,
     args: Parameters<typeof createNewDiary>
 ) => {
-    const { title, content, like, isShare } = args[0];
-    try {
-        await prisma.diary.update({
-            where: {
-                id: diaryId,
-            },
-            data: {
-                updated_At: toKoreanTimeStamp(new Date()),
-                like,
-                contents: content,
-                title,
-                isShare,
-            },
-        });
-    } catch (e) {
-        throw new Error(JSON.stringify(e));
-    }
+const { title, content, like, isShare } = args[0];
+  try {
+    await prisma.diary.update({
+      where: {
+        id: diaryId,
+      },
+      data: {
+        updated_At: toKoreanTimeStamp(new Date()),
+        contents: content,
+        title,
+        isShare,
+      },
+    });
+  } catch (e) {
+    throw new Error(JSON.stringify(e));
+  }
 };
 export {
     createNewDiary,
