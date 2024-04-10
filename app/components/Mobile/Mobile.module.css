@@ -1,0 +1,35 @@
+.container {
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #868686;
+}
+
+.messageBox {
+    padding: 5rem;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: white;
+    border-radius: var(--box_radius);
+    border: 1px solid var(--stroke_color);
+    box-shadow: var(--box_shadow2);
+}
+
+.logoImg {
+    width: 10rem;
+    margin-bottom: 1rem;
+}
+
+.message {
+    font-size: var(--font_size_content);
+    margin: 0.2rem;
+    color: var(--font_color_blue);
+}

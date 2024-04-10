@@ -10,7 +10,12 @@ import KakaoMap from "../components/KakaoMap.tsx";
 function MapPage() {
     return (
         <div className={styles.container}>
-            <Link href="/lotto" className={styles.linkToLotto}>
+            <Link
+                href="/lotto"
+                className={styles.linkToLotto}
+                data-aos="fade-right"
+                data-aos-easing="ease-in-sine"
+            >
                 <div className={styles.linkTextBox}>
                     <p className={styles.linkTitle}>
                         드리밍에서 추천하는 이번 주 로또 번호!
