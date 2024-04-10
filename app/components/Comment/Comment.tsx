@@ -1,14 +1,29 @@
 import React from "react";
 import styles from "./Comment.module.css";
 
-function Comment() {
+export interface CommentProps {
+    id: string;
+    comment: string;
+    created_At: string;
+    diaryId: string;
+    updated_At: string;
+    writerId: string;
+}
+
+const Comment: React.FC<CommentProps> = ({
+    id,
+    comment,
+    diaryId,
+    updated_At,
+    writerId,
+}) => {
     return (
         <div className={styles.container}>
-            <p className={styles.username}>작성자</p>
-            <p className={styles.content}>댓글 내용</p>
-            <p className={styles.date}>2024/04/05</p>
+            <p className={styles.username}>{writerId}</p>
+            <p className={styles.content}>{comment}</p>
+            <p className={styles.date}>{updated_At}</p>
         </div>
     );
-}
+};
 
 export default Comment;
