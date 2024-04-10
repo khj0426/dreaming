@@ -3,8 +3,13 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./Search.module.css";
 import { useRouter } from "next/router";
+import { getSearchDiary, getSearchDictionary } from "../../api/service/search";
 
-function CommunityPage() {
+interface SearchProps {
+    onSearchKeyword: (keyword: string) => void;
+}
+
+const Search = ({ onSearchKeyword }: SearchProps) => {
     // 검색
     const [inputKeyword, setInputKeyword] = useState("");
     const [searchKeyword, setSearchKeyword] = useState("");
@@ -17,14 +22,14 @@ function CommunityPage() {
     const search = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setSearchKeyword(inputKeyword);
-        console.log(inputKeyword);
+        // console.log(inputKeyword);
 
-        // if (inputKeyword.trim()) {
-        //     router.push({
-        //         pathname: "/community",
-        //         query: { keyword: inputKeyword },
-        //     });
-        // }
+        // 꿈 일기 검색
+        // getSearchDiary(inputKeyword, 1);
+
+        // 꿈 사전 검색
+        // getSearchDictionary(inputKeyword, 1, 5);
+        onSearchKeyword(inputKeyword);
     };
 
     return (
@@ -43,6 +48,6 @@ function CommunityPage() {
             </form>
         </>
     );
-}
+};
 
-export default CommunityPage;
+export default Search;

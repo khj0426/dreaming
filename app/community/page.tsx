@@ -12,9 +12,7 @@ import { useRouter } from "next/router";
 function CommunityPage() {
     const [page, setPage] = useState(1); // 현재 페이지
     const [totalPages, setTotalPages] = useState(0); // 총 데이터 수
-    // const [results, setResults] = useState([]); // 검색
-    // const router = useRouter(); // 검색
-    // const { keyword } = router.query; // 검색
+    const [searchKeyword, setSearchKeyword] = useState<string>(""); // 자식에게 받을 검색어
 
     const handleChangePage = (
         event: React.ChangeEvent<unknown>,
@@ -36,7 +34,13 @@ function CommunityPage() {
         }
     );
 
-    console.log(data);
+    // console.log(data);
+
+    // [api] 검색
+    const handleSearchKeyword = (result: string) => {
+        setSearchKeyword(result);
+        console.log(result);
+    };
 
     // [api] 검색
     // useEffect(() => {
@@ -62,7 +66,7 @@ function CommunityPage() {
             </div>
             <div className={styles.searchBox}>
                 <p className={styles.searchTitle}>꿈 게시글 검색</p>
-                <Search />
+                <Search onSearchKeyword={handleSearchKeyword} />
             </div>
             <div className={styles.posts}>
                 {data && data.length > 0 ? (
