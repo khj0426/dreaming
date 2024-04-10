@@ -1,10 +1,14 @@
 "use client";
 
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styles from "./lotto.module.css";
 import { GrMoney } from "react-icons/gr";
+import { UserProps } from "../diary/page";
+import { getUser } from "../api/service/user";
 
 function LottoPage() {
+    const [user, setUser] = useState<UserProps[]>([]);
+
     // 애니메이션 활성화 상태
     const [isAnimating, setIsAnimating] = useState(false);
 
@@ -16,6 +20,21 @@ function LottoPage() {
         setTimeout(() => {
             setIsAnimating(false);
         }, 3000);
+    }, []);
+
+    // [api] 로그인한 유저 정보 get 요청
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getUser();
+                setUser(data.user);
+            } catch (error) {
+                console.error(
+                    "다이어리 목록을 불러오는 데 실패했습니다.",
+                    error
+                );
+            }
+        })();
     }, []);
 
     return (
@@ -30,9 +49,9 @@ function LottoPage() {
             </div>
 
             <div className={styles.userBox}>
-                <p className={styles.username}>user-101010 님</p>
+                <p className={styles.username}>{user.name} 님</p>
                 <p className={styles.point}>
-                    <GrMoney /> <p>1000 p</p>
+                    <GrMoney /> <p>{user.point} p</p>
                 </p>
             </div>
 
