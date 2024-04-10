@@ -13,11 +13,11 @@ import { cookies } from 'next/headers';
 export async function GET(req: NextRequest) {
   const urlArray = new URL(req.url).pathname.split('/');
   const id = urlArray[urlArray.length - 1];
-  try{
+  try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
     ).userId;
-  }catch(e){
+  } catch (e) {
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -30,8 +30,14 @@ export async function GET(req: NextRequest) {
 
   try {
     const diary = await getDiaryById(id);
+    const likes = await prisma.like.count({
+      where: {
+        diaryId: id,
+      },
+    });
+    const diaryResponse = Object.assign({}, diary, { likes });
     if (diary) {
-      return new Response(JSON.stringify(diary), {
+      return new Response(JSON.stringify(diaryResponse), {
         status: 200, // HTTP 상태 코드 200 (OK)
         headers: {
           'Content-Type': 'application/json', // 컨텐츠 타입을 명시합니다.
@@ -51,11 +57,11 @@ export async function GET(req: NextRequest) {
   }
 }
 export async function DELETE(req: NextRequest) {
-  try{
+  try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
     ).userId;
-  }catch(e){
+  } catch (e) {
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
@@ -84,12 +90,12 @@ export async function DELETE(req: NextRequest) {
   }
 }
 
-export async function PATCH(req: NextRequest) {  
-  try{
+export async function PATCH(req: NextRequest) {
+  try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
     ).userId;
-  }catch(e){
+  } catch (e) {
     return new Response(
       JSON.stringify({
         error: '토큰이 만료되었습니다.',
