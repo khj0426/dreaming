@@ -24,21 +24,26 @@ const createCommentByDiaryId = async ({
     writerId,
     comment,
 }: Comment) => {
-    try {
-        const newComment = await prisma.comment.create({
-            data: {
-                diaryId,
-                writerId: writerId + "",
-                comment,
-                created_At: toKoreanTimeStamp(new Date()),
-                updated_At: toKoreanTimeStamp(new Date()),
-            },
-        });
-        return newComment;
-    } catch (e) {
-        console.log("ㅔ러입니다");
-        console.error(e);
-    }
+try {
+    const getUserByWriterId = await prisma.member.findUnique({
+      where: {
+        id: writerId + '',
+      },
+    });
+    await prisma.comment.create({
+      data: {
+        diaryId,
+        writerId: writerId + '',
+        comment,
+        created_At: toKoreanTimeStamp(new Date()),
+        updated_At: toKoreanTimeStamp(new Date()),
+        writerName: getUserByWriterId?.name,
+        writerPicture: getUserByWriterId?.picture,
+      },
+    });
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const updateCommentByCommentId = async ({
