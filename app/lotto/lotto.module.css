@@ -116,6 +116,14 @@
     transform: rotate(0deg);
 }
 
+.lottoNum {
+    font-size: 1.7rem;
+    color: var(--font_color_yellow);
+    /* opacity: 0; 
+    animation: fadeIn 3s ease forwards;
+    animation-delay: 3s;  */
+}
+
 /* 로또 공을 원으로 배치 */
 .lotto:nth-child(1) {
     transform: rotate(0deg) translateX(-50%);
@@ -188,5 +196,14 @@
     }
     to {
         transform: rotate(360deg);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
