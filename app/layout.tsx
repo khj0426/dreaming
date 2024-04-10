@@ -8,6 +8,7 @@ const inter = Inter({ subsets: ["latin"] });
 // import KakaoLoginButton from "./components/kakaoLoginButton";
 import Navbar from "./components/Navbar/Navbar";
 import Script from "next/script";
+import { usePathname, useRouter } from "next/navigation";
 
 // export const metadata = {
 //     title: "Create Next App",
@@ -25,12 +26,16 @@ export default function RootLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const router = useRouter();
+    const pathname = usePathname().slice(1);
+    console.log(pathname);
+
     return (
         <html lang="en">
             <body className={inter.className}>
                 <AuthProvider>
                     {children}
-                    <Navbar />
+                    {pathname !== "login" ? <Navbar /> : null}
                 </AuthProvider>
             </body>
         </html>
