@@ -29,6 +29,7 @@ export interface ReadProps {
   contents: string;
   created_At: string;
   id: string;
+  likes: number;
   isShare: boolean;
   like: Like[];
   title: string;
@@ -65,11 +66,11 @@ function ReadPage() {
     {},
     {}
   );
-  console.log(data?.like);
+  console.log(data);
 
   const handleClickBsHeart = async () => {
     await axiosInstance.post('/api/diary/like', {
-      diaryId: data?.id,
+      diaryId: data?.id + '',
     });
     alert('완');
     window.location.reload();
@@ -91,7 +92,7 @@ function ReadPage() {
         <div className={styles.postFooterBox}>
           <div className={styles.postReactionBox}>
             <BsHeartFill />
-            <p className={styles.postLike}>{data?.like?.length}</p>
+            <p className={styles.postLike}>{data?.likes}</p>
             <BsChatDotsFill />
             <p className={styles.postComment}>{data?.comments.length}</p>
           </div>
