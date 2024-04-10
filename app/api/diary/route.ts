@@ -35,13 +35,14 @@ export async function GET(req: NextRequest) {
             parseInt(skip + ""),
             parseInt(pageSize as string)
         );
-        console.log(getAllPosts);
+
         if (userId && getAllPosts) {
             return new Response(JSON.stringify(getAllPosts), {
                 status: 200,
             });
         }
     } catch (e) {
+        console.log(e);
         return NextResponse.json(
             {
                 error: "유저의 다이어리를 불러올 수 없어요",
@@ -110,7 +111,6 @@ export async function POST(req: NextRequest) {
             isShare,
             writer: Number(decodedToken?.userId),
         });
-        console.log(newPost);
 
         await addUserPoints(userId + "");
         return new Response(JSON.stringify(newPost), {
