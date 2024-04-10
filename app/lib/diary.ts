@@ -33,9 +33,11 @@ const createNewDiary = async ({
                 comments: {
                     create: [],
                 },
+
                 created_At: toKoreanTimeStamp(new Date()),
                 updated_At: toKoreanTimeStamp(new Date()),
                 like: 0,
+
                 writerName: getWriterInfo?.name,
                 writerPicture: getWriterInfo?.picture,
             },
