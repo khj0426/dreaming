@@ -8,11 +8,13 @@ import "aos/dist/aos.css";
 import AuthProvider from "./components/Next-Auth";
 const inter = Inter({ subsets: ["latin"] });
 
-// import KakaoLoginButton from "./components/kakaoLoginButton";
 import Navbar from "./components/Navbar/Navbar";
 import Script from "next/script";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useMediaQuery } from "react-responsive";
+import styles from "../styles/mediaLayout.module.css";
+import Mobile from "./components/Mobile/Mobile";
 
 declare global {
     interface Window {
@@ -27,7 +29,9 @@ export default function RootLayout({
 }) {
     const router = useRouter();
     const pathname = usePathname().slice(1);
-    console.log(pathname);
+
+    // 반응형 화면
+    const isMobile = useMediaQuery({ maxWidth: 767 });
 
     useEffect(() => {
         AOS.init({});
@@ -37,8 +41,14 @@ export default function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <AuthProvider>
-                    {children}
-                    {pathname !== "login" ? <Navbar /> : null}
+                    {isMobile ? (
+                        <>
+                            {children}
+                            {pathname !== "login" ? <Navbar /> : null}
+                        </>
+                    ) : (
+                        <Mobile />
+                    )}
                 </AuthProvider>
             </body>
         </html>
