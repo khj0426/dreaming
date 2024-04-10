@@ -26,16 +26,16 @@ export async function GET(req: NextRequest) {
         );
     }
 
-    try {
-        const userId = verifyToken(
-            cookies().get("dreaming_accessToken")?.value ?? ""
-        ).userId;
-        const getAllPosts = await getAllDiaryByUser(
-            userId,
-            parseInt(skip + ""),
-            parseInt(pageSize as string)
-        );
-
+  try {
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
+    const getAllPosts = await getAllDiaryByUser(
+      userId + '',
+      parseInt(skip + ''),
+      parseInt(pageSize as string)
+    );
+    console.log(getAllPosts);
         if (userId && getAllPosts) {
             return new Response(JSON.stringify(getAllPosts), {
                 status: 200,
