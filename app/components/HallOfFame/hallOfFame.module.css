@@ -9,7 +9,7 @@
 
 .title {
     font-size: var(--font_size_title);
-    font-weight: bold;
+    font-weight: bold !important;
     margin: 0;
     color: var(--secondary-character-color);
     /* color: ${(props) =>
@@ -53,6 +53,7 @@
 .rank {
     width: 15vw;
     height: 15vw;
+    font-weight: bold !important;
 
     display: flex;
     justify-content: center;

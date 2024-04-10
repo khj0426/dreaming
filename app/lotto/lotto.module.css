@@ -32,6 +32,7 @@
     margin-bottom: 0.5rem;
 
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     color: white;
 }
 
@@ -53,6 +54,7 @@
 
 .username {
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     color: var(--font_color_gray3);
 }
 
@@ -72,6 +74,7 @@
 
 .point > p {
     margin-left: 0.3rem;
+    font-weight: bold !important;
 }
 
 .lottos {

@@ -26,6 +26,7 @@
 .linkTitle {
     margin-bottom: 0.4rem;
     font-size: var(--font_size_content);
+    font-weight: bold !important;
     color: white;
 }
 
@@ -46,6 +47,7 @@
 
 .mapTitle {
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     margin-bottom: 0.4rem;
 }
 
