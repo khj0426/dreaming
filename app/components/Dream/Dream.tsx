@@ -1,17 +1,25 @@
 import React from "react";
 import styles from "./Dream.module.css";
 
-function Dream() {
+export interface DreamType {
+    id: string;
+    category: string;
+    title: string;
+    contents: string;
+}
+
+export interface DreamProps {
+    dictionaries: DreamType[];
+    total: number;
+}
+
+const Dream = ({ id, category, title, contents }: DreamType) => {
     return (
         <div className={styles.container}>
-            <p className={styles.title}>봄날의 기억 꿈</p>
-            <p className={styles.content}>
-                차가운 계절이 지나고 봄이 또 찾아왔죠. 이렇게 시린 겨울을 우린
-                잘 버텨냈네요. 앞으로 해야 할 것들은 너무 넘쳐나지만. 계절의
-                포근함으로 또 이겨내야죠.
-            </p>
+            <p className={styles.title}>{title}</p>
+            <p className={styles.content}>{contents}</p>
         </div>
     );
-}
+};
 
 export default Dream;

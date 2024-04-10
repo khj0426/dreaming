@@ -60,3 +60,9 @@
 .pagination {
     margin: 1vh 0 3vh 0;
 }
+
+.nothing {
+    margin-top: 2vh;
+    font-size: var(--font_size_content);
+    color: var(--font_color_gray);
+}
