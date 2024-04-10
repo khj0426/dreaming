@@ -36,12 +36,12 @@ function PostPage() {
     };
 
     // 저장
-    const handleSubmit = (event: any) => {
+    const handleSubmit = async (event: any) => {
         console.log(inputData);
         let boolean_share = false;
         if (inputData.isShare) boolean_share = true;
         // [api] post 요청
-        postDiary(inputData.title, inputData.content, boolean_share);
+        await postDiary(inputData.title, inputData.content, boolean_share);
         // 바로 전 화면으로 이동
         router.back();
     };

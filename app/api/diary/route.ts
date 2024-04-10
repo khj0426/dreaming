@@ -26,16 +26,16 @@ export async function GET(req: NextRequest) {
         );
     }
 
-  try {
-    const userId = verifyToken(
-      cookies().get('dreaming_accessToken')?.value ?? ''
-    ).userId;
-    const getAllPosts = await getAllDiaryByUser(
-      userId + '',
-      parseInt(skip + ''),
-      parseInt(pageSize as string)
-    );
-    console.log(getAllPosts);
+    try {
+        const userId = verifyToken(
+            cookies().get("dreaming_accessToken")?.value ?? ""
+        ).userId;
+        const getAllPosts = await getAllDiaryByUser(
+            userId + "",
+            parseInt(skip + ""),
+            parseInt(pageSize as string)
+        );
+        console.log(getAllPosts);
         if (userId && getAllPosts) {
             return new Response(JSON.stringify(getAllPosts), {
                 status: 200,
@@ -110,6 +110,7 @@ export async function POST(req: NextRequest) {
             isShare,
             writer: Number(decodedToken?.userId),
         });
+        console.log(newPost);
 
         await addUserPoints(userId + "");
         return new Response(JSON.stringify(newPost), {

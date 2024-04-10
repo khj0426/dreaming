@@ -57,7 +57,6 @@ const useAxios = <T>(
         fetchData();
     }, []);
 
-
     return {
         data,
         loading,

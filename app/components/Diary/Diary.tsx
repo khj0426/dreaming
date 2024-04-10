@@ -9,7 +9,7 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { BsHeartFill } from "react-icons/bs";
 import { BsChatDotsFill } from "react-icons/bs";
 
-export interface DiaryProps {
+export interface DiaryType {
     id: string;
     title: string;
     isShare: boolean;
@@ -18,8 +18,12 @@ export interface DiaryProps {
     like: number;
     updated_At: string;
 }
+export interface DiaryProps {
+    diaries: DiaryType[];
+    total: number;
+}
 
-const Diary: React.FC<DiaryProps> = ({
+const Diary = ({
     id,
     title,
     isShare,
@@ -27,7 +31,7 @@ const Diary: React.FC<DiaryProps> = ({
     writerId,
     like,
     updated_At,
-}) => {
+}: DiaryType) => {
     return (
         //writerId 넣어서 read에 보내기
         <Link href={`/read/${id}`}>
