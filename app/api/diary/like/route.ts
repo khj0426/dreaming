@@ -20,17 +20,18 @@ export async function POST(req: NextRequest) {
     );
   }
   try {
+    const userId = verifyToken(
+      cookies().get('dreaming_accessToken')?.value ?? ''
+    ).userId;
     const getDiary = await prisma.diary.findUnique({
       where: {
         id: diaryId,
       },
     });
-    const getDiaryLikesNumber = await prisma.diary.update({
-      where: {
-        id: diaryId,
-      },
+    const getDiaryLikesNumber = await prisma.like.create({
       data: {
-        like: (getDiary?.like as number) + 1,
+        diaryId,
+        memberId: userId,
       },
     });
 

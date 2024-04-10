@@ -35,7 +35,9 @@ const createNewDiary = async ({
         },
         created_At: toKoreanTimeStamp(new Date()),
         updated_At: toKoreanTimeStamp(new Date()),
-        like: 0,
+        like: {
+          create: [],
+        },
         writerName: getWriterInfo?.name,
         writerPicture: getWriterInfo?.picture,
       },
@@ -117,7 +119,6 @@ const patchDiaryById = async (
       },
       data: {
         updated_At: toKoreanTimeStamp(new Date()),
-        like,
         contents: content,
         title,
         isShare,
