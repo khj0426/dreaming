@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./hallOfFame.module.css";
 import { useAxios } from "../../hooks/useAxios";
+import { getHallOfFame } from "../../api/service/hallOfFame";
+import Link from "next/link";
 
 interface HallOfFameProps {
     id: string;
@@ -16,15 +18,30 @@ interface HallOfFameProps {
 }
 
 function HallOfFame() {
+    const [data, setData] = useState<HallOfFameProps[]>([]);
     // [api] 명예의 전당 get 요청
-    const { data, error, loading } = useAxios<HallOfFameProps[]>(
-        `/api/best-posts`,
-        "get",
-        {},
-        {}
-    );
+    // const { data, error, loading } = useAxios<HallOfFameProps[]>(
+    //     `/api/best-posts`,
+    //     "get",
+    //     {},
+    //     {}
+    // );
 
-    console.log(data);
+    // [api] 꿈 일기 목록 get 요청
+    useEffect(() => {
+        (async () => {
+            try {
+                const data = await getHallOfFame();
+                setData(data);
+                console.log(data.diaries);
+            } catch (error) {
+                console.error(
+                    "다이어리 목록을 불러오는 데 실패했습니다.",
+                    error
+                );
+            }
+        })();
+    }, []);
 
     return (
         <div className={styles.container}>
@@ -36,21 +53,24 @@ function HallOfFame() {
             </div>
 
             <div className={styles.hallOfFrame}>
-                {/* {data !== undefined
-                    ? data?.map((d, index) => {
-                          <div className={styles.rankBox}>
-                              <p className={styles.rank}>{index + 1}</p>
-                              <div className={styles.diary}>
-                                  <p className={styles.diary_title}>
-                                      {d.title}
-                                  </p>
-                                  <p className={styles.diary_preview}>
-                                      {d.contents}
-                                  </p>
+                {data
+                    ? data?.slice(0, 3).map((d, index) => (
+                          // eslint-disable-next-line react/jsx-key
+                          <Link href={`/read/${d.id}`}>
+                              <div key={index} className={styles.rankBox}>
+                                  <p className={styles.rank}>{index + 1}</p>
+                                  <div className={styles.diary}>
+                                      <p className={styles.diary_title}>
+                                          {d.title}
+                                      </p>
+                                      <p className={styles.diary_preview}>
+                                          {d.contents}
+                                      </p>
+                                  </div>
                               </div>
-                          </div>;
-                      })
-                    : null} */}
+                          </Link>
+                      ))
+                    : null}
                 {/* <div className={styles.rankBox}>
                     <p className={styles.rank}>1</p>
                     <div className={styles.diary}>
