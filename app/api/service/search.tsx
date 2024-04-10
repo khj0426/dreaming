@@ -12,7 +12,7 @@ export const getSearchDiary = async (search: string, page: number) => {
     try {
         const response = await axios({
             method: "GET",
-            url: "/api/diaries/search",
+            url: "/api/diaries",
             params: {
                 search: search,
                 page: page,

@@ -16,7 +16,7 @@ function DiaryPage() {
     const [page, setPage] = useState(1); // 현재 페이지
     // cosnt [pagesize, setPagezize]
     const [totalPages, setTotalPages] = useState(0); // 총 데이터 수
-    const [data, setData] = useState();
+    const [data, setData] = useState([]);
 
     const handleChangePage = (
         event: React.ChangeEvent<unknown>,
@@ -31,6 +31,7 @@ function DiaryPage() {
             try {
                 const data = await getDiaryList(page, 5);
                 setData(data);
+                console.log(data.diaries);
             } catch (error) {
                 console.error(
                     "다이어리 목록을 불러오는 데 실패했습니다.",
@@ -40,7 +41,7 @@ function DiaryPage() {
         })();
     }, [page]); // 페이지 번호가 변경될 때마다 리렌더링
 
-    // console.log(data);
+    // console.log(data?.total);
 
     return (
         <div className={styles.container}>
@@ -62,8 +63,8 @@ function DiaryPage() {
 
             <div className={styles.postBox}>
                 <p className={styles.postsTitle}>꿈 일기 목록</p>
-                {data && data.length > 0 ? (
-                    data.map((d) => (
+                {data.diaries && data.diaries.length > 0 ? (
+                    data.diaries.map((d) => (
                         <Diary
                             key={d.id}
                             id={d.id}
@@ -82,7 +83,7 @@ function DiaryPage() {
                 {/* 페이지네이션 */}
                 <div className={styles.pagination}>
                     <BasicPagination
-                        count={5}
+                        count={Math.ceil(data.total / 5)}
                         page={page}
                         onChange={handleChangePage}
                     />
