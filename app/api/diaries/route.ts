@@ -8,16 +8,7 @@ export async function GET(req: NextRequest) {
   const searchKeyword = req.nextUrl.searchParams.get('search');
   const page = req.nextUrl.searchParams.get('page');
 
-  if (searchKeyword && !isLengthInRange(searchKeyword, 0, 500)) {
-    return new Response(
-      JSON.stringify({
-        error: '다이어리 검색은 최대 500자까지 가능합니다',
-      }),
-      {
-        status: 502,
-      }
-    );
-  }
+
 
   try {
     const allKeywords = await getDiariesBySearchKeyword(

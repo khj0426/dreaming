@@ -3,7 +3,12 @@ const isLengthInRange = (str: string, minLength: number, maxLength: number) => {
 };
 
 const toKoreanTimeStamp = (date: Date) => {
-  return date.toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' });
+  return date.toLocaleString('ko-KR', {
+    timeZone: 'Asia/Seoul',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 };
 
 export { isLengthInRange, toKoreanTimeStamp };

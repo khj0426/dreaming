@@ -78,15 +78,17 @@ const getAllDiaryByUser = async (
         writerId: userId + '',
       },
       orderBy: {
-        updated_At: 'asc',
+        updated_At: 'desc',
       },
       skip,
       take,
     });
-    console.log(allDiary);
     const totalDiaries = await prisma.diary.count({
       where: {
         writerId: userId,
+      },
+      orderBy: {
+        updated_At: 'desc',
       },
     });
 
@@ -124,7 +126,6 @@ const patchDiaryById = async (
       },
       data: {
         updated_At: toKoreanTimeStamp(new Date()),
-        like,
         contents: content,
         title,
         isShare,
