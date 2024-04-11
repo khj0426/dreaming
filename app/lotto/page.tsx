@@ -1,5 +1,6 @@
 'use client';
 
+import swal from 'sweetalert';
 import React, { useCallback, useEffect, useState } from 'react';
 import styles from './lotto.module.css';
 import { GrMoney } from 'react-icons/gr';
@@ -15,12 +16,14 @@ function LottoPage() {
   const [isAnimating, setIsAnimating] = useState(false);
 
   // 버튼 클릭 이벤트 핸들러
-  const handlePlayButtonClick = useCallback(() => {
-    const isConfirmed = window.confirm(
-      '300 포인트를 사용하여 로또 번호를 추천 받으시겠습니까?'
-    );
+  const handlePlayButtonClick = useCallback(async () => {
+    const result = await swal({
+      title: '300포인트를 사용하여 이번 주 번호를 추첨받으시겠습니까?',
+      icon: 'info',
+      dangerMode: true,
+    });
 
-    if (isConfirmed) {
+    if (result) {
       setIsAnimating(true);
 
       // [api] 랜덤 로또 번호 get (애니메이션으로 살짝 딜레이)

@@ -78,15 +78,21 @@ function ReadPage() {
     await axiosInstance.post('/api/diary/like', {
       diaryId: data?.id + '',
     });
-    alert('좋아요가 반영되었습니다.');
+
+    await swal('반영되었습니다');
     window.location.reload();
   };
 
   // [api] 글 삭제
-  const handlePostDel = (event: React.MouseEvent<HTMLDivElement>) => {
-    const isConfirmed = window.confirm('글을 삭제하시겠습니까?');
+  const handlePostDel = async (event: React.MouseEvent<HTMLDivElement>) => {
+    const result = await swal({
+      title: '삭제하시겠습니까?',
+      text: "삭제를 원하면 '확인'을 누르세요.",
+      icon: 'warning',
+      dangerMode: true,
+    });
 
-    if (isConfirmed) {
+    if (result) {
       deleteDiary(pathname);
       router.back();
     }
@@ -97,13 +103,11 @@ function ReadPage() {
     const checkOwner = async () => {
       try {
         const userData = await getUser(); // 로그인한 유저 정보 get 요청
-        console.log(userData);
         // 여기서 data?.writerName은 API로부터 받은 꿈 일기의 작성자 이름을 가리킵니다.
         // userData.user.name은 로그인한 유저의 이름입니다.
         // 이 두 값을 비교하여 owner 상태를 업데이트합니다.
         if (data?.writerName && userData.user) {
           setOwner(userData.user.name === data.writerName);
-          console.log(userData.user.name === data.writerName);
         }
         setUser(userData.user);
       } catch (error) {
@@ -168,7 +172,6 @@ function ReadPage() {
           : null}
       </div>
 
-      {/* 리액션바 : 좋아요, 댓글 */}
       {data?.isShare ? (
         <div className={styles.reactionBarBg}>
           <div className={styles.reactionBarBox}>
