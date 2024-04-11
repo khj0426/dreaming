@@ -26,6 +26,7 @@ function DiaryPage() {
     // 검색바 -> 검색어 업데이트
     const handleSearchKeyword = (result: string) => {
         setSearchKeyword(result);
+        setPage(1);
         console.log(result);
     };
 
