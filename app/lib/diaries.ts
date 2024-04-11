@@ -1,66 +1,83 @@
-import prisma from '../../prisma/client';
+import prisma from "../../prisma/client";
 
 const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
-  try {
-    if (keyword.length === 0) {
-      const getAllDiaries = await prisma.diary.count({
-        where: {
-          isShare: true,
-        },
-        orderBy: {
-          updated_At: 'desc',
-        },
-      });
-      const getDiariesFromKeyword = await prisma.diary.findMany({
-        where: {
-          isShare: true,
-        },
-        skip: page,
-        take: 15,
+    try {
+        let skip = 0;
+        const take = 15;
+        // 페이지 번호를 기반으로 건너뛸 항목 수를 계산합니다.
+        if (page > 1) {
+            skip = (page - 1) * take;
+        }
 
-        orderBy: {
-          updated_At: 'desc',
-        },
-      });
-      return { diaries: getDiariesFromKeyword, total: getAllDiaries };
+        // 키워드가 비어있는 경우의 로직
+        if (keyword.length === 0) {
+            const total = await prisma.diary.count({
+                where: {
+                    isShare: true,
+                },
+            });
+
+            const diaries = await prisma.diary.findMany({
+                where: {
+                    isShare: true,
+                },
+                skip,
+                take,
+                orderBy: {
+                    updated_At: "desc",
+                },
+            });
+
+            return { diaries, total };
+        }
+
+        // 키워드가 있는 경우의 로직
+        const total = await prisma.diary.count({
+            where: {
+                isShare: true,
+                OR: [
+                    {
+                        title: {
+                            contains: keyword,
+                        },
+                    },
+                    {
+                        contents: {
+                            contains: keyword,
+                        },
+                    },
+                ],
+            },
+        });
+
+        const diaries = await prisma.diary.findMany({
+            where: {
+                isShare: true,
+                OR: [
+                    {
+                        title: {
+                            contains: keyword,
+                        },
+                    },
+                    {
+                        contents: {
+                            contains: keyword,
+                        },
+                    },
+                ],
+            },
+            skip,
+            take,
+            orderBy: {
+                updated_At: "desc",
+            },
+        });
+
+        return { diaries, total };
+    } catch (e) {
+        console.error(e);
+        throw e;
     }
-
-    const getAllDiaries = await prisma.diary.count({
-      where: {
-        isShare: true,
-        title: {
-          search: `${keyword}*`,
-        },
-        contents: {
-          search: `${keyword}*`,
-        },
-      },
-      orderBy: {
-        updated_At: 'desc',
-      },
-    });
-
-    const getDiariesFromKeyword = await prisma.diary.findMany({
-      where: {
-        isShare: true,
-        title: {
-          search: `${keyword}*`,
-        },
-        contents: {
-          search: `${keyword}`,
-        },
-      },
-      skip: page,
-      take: 15,
-
-      orderBy: {
-        updated_At: 'desc',
-      },
-    });
-    return { diaries: getDiariesFromKeyword, total: getAllDiaries };
-  } catch (e) {
-    throw e;
-  }
 };
 
 export { getDiariesBySearchKeyword };
