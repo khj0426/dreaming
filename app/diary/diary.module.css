@@ -35,6 +35,17 @@
     color: var(--font_color_yellow);
 }
 
+.usernameBox {
+    display: flex;
+    align-items: center;
+}
+
+.logoutBtn {
+    margin-left: 0.8rem;
+    font-size: 1.2rem;
+    color: var(--font_color_yellow);
+}
+
 .point {
     padding: 0.2rem 1rem;
     font-size: var(--font_size_content);
