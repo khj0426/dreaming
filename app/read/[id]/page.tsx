@@ -4,7 +4,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import styles from "./read.module.css";
 import Comment from "../../components/Comment/Comment";
 import { usePathname, useRouter } from "next/navigation";
-
+import swal from "sweetalert";
 import { BsHeartFill } from "react-icons/bs";
 import { BsChatDotsFill } from "react-icons/bs";
 import { useAxios } from "../../hooks/useAxios";
