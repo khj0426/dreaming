@@ -28,7 +28,8 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     const router = useRouter();
-    const pathname = usePathname().slice(1);
+    const pathname = usePathname();
+    console.log(pathname);
 
     // 반응형 화면
     const isMobile = useMediaQuery({ maxWidth: 767 });
@@ -44,7 +45,9 @@ export default function RootLayout({
                     {isMobile ? (
                         <>
                             {children}
-                            {pathname !== "login" ? <Navbar /> : null}
+                            {pathname !== "/login" && pathname !== "/" ? (
+                                <Navbar />
+                            ) : null}
                         </>
                     ) : (
                         <Mobile />
