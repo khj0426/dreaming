@@ -28,7 +28,7 @@ const handler = NextAuth({
         maxAge: 24 * 60 * 60,
     },
     logger: {},
-    secret: process.env.JWT_SECRET,
+    secret: process.env.JWT_KEY,
     providers: [
         KakaoProvider({
             clientId: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID || "",
