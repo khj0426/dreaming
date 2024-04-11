@@ -28,9 +28,13 @@ export async function GET(req: NextRequest) {
 
       return NextResponse.redirect(req.nextUrl);
     } else {
-      return NextResponse.redirect('/auth/signIn');
+      const url = req.nextUrl;
+      url.pathname = '/login';
+      return NextResponse.redirect(url);
     }
   } catch (e) {
-    return NextResponse.redirect('/auth/signIn');
+    const url = req.nextUrl;
+    url.pathname = '/login';
+    return NextResponse.redirect(url);
   }
 }

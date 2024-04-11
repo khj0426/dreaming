@@ -144,6 +144,23 @@ const getDictionaryFromSearch = async (
   take?: number
 ) => {
   try {
+    if (searchInput.length === 0) {
+      const totalKeywordLength = await prisma.dictionary.count({
+        where: {
+          contents: {
+            contains: searchInput,
+          },
+        },
+      });
+      const getDiariesFromKeyword = await prisma.dictionary.findMany({
+        skip,
+        take,
+      });
+      return {
+        dictionary: getDiariesFromKeyword,
+        total: totalKeywordLength,
+      };
+    }
     const totalKeywordLength = await prisma.dictionary.count({
       where: {
         title: {

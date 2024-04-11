@@ -1,21 +1,18 @@
 'use client';
 
-import React, { useEffect, useState } from "react";
-import styles from "./diary.module.css";
-import LinkToDiary from "../components/LinkToDiary/LinkToDiary";
-import Pagination from "@mui/material/Pagination";
-import { signOut } from "next-auth/react";
+import React, { useEffect, useState } from 'react';
+import styles from './diary.module.css';
+import LinkToDiary from '../components/LinkToDiary/LinkToDiary';
+import Pagination from '@mui/material/Pagination';
 
-import { Data } from "../community/page";
-import { GrMoney } from "react-icons/gr";
-import { HiOutlineLogout } from "react-icons/hi";
-import LinkToReport from "../components/LinkToReport/LinkToReport";
-import Diary, { DiaryProps } from "../components/Diary/Diary";
-import BasicPagination from "../components/BasicPagination";
-import { useAxios } from "../hooks/useAxios";
-import { getDiaryList } from "../api/service/diary";
-import { getUser } from "../api/service/user";
-import { useRouter } from "next/navigation";
+import { Data } from '../community/page';
+import { GrMoney } from 'react-icons/gr';
+import LinkToReport from '../components/LinkToReport/LinkToReport';
+import Diary, { DiaryProps } from '../components/Diary/Diary';
+import BasicPagination from '../components/BasicPagination';
+import { useAxios } from '../hooks/useAxios';
+import { getDiaryList } from '../api/service/diary';
+import { getUser } from '../api/service/user';
 
 export interface UserProps {
   id: string;
@@ -26,10 +23,9 @@ export interface UserProps {
 }
 
 function DiaryPage() {
-    const router = useRouter();
-    const [page, setPage] = useState(1); // 현재 페이지
-    const [data, setData] = useState<Data | null>(null);
-    const [user, setUser] = useState<UserProps | null>(null);
+  const [page, setPage] = useState(1); // 현재 페이지
+  const [data, setData] = useState<Data | null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -62,39 +58,23 @@ function DiaryPage() {
     })();
   }, []);
 
-    // [api] 로그아웃
-    const handleKakaoLogout = async () => {
-        await fetch("/api/auth/logout");
-        await signOut().then(() => {
-            router.push(
-                `https://kauth.kakao.com/oauth/logout?client_id=${process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID}&logout_redirect_uri=http://localhost:3000`
-            );
-        });
-    };
-
-    return (
-        <div className={styles.container}>
-            <div className={styles.headBox}>
-                <div className={styles.userBox}>
-                    <p className={styles.hello}>반가워요!</p>
-                    <div className={styles.user}>
-                        <div className={styles.usernameBox}>
-                            <p className={styles.username}>{user?.name} 님</p>
-                            <HiOutlineLogout
-                                className={styles.logoutBtn}
-                                onClick={handleKakaoLogout}
-                            />
-                        </div>
-                        <p className={styles.point}>
-                            <GrMoney /> <p>{user?.point} p</p>
-                        </p>
-                    </div>
-                </div>
-                <div className={styles.widgets}>
-                    <LinkToDiary />
-                    <LinkToReport />
-                </div>
-            </div>
+  return (
+    <div className={styles.container}>
+      <div className={styles.headBox}>
+        <div className={styles.userBox}>
+          <p className={styles.hello}>반가워요!</p>
+          <div className={styles.user}>
+            <p className={styles.username}>{user?.name} 님</p>
+            <p className={styles.point}>
+              <GrMoney /> <p>{user?.point} p</p>
+            </p>
+          </div>
+        </div>
+        <div className={styles.widgets}>
+          <LinkToDiary />
+          <LinkToReport />
+        </div>
+      </div>
 
       <div className={styles.postBox}>
         <p className={styles.postsTitle}>꿈 일기 목록</p>
