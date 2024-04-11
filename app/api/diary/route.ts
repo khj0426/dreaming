@@ -108,7 +108,6 @@ export async function POST(req: NextRequest) {
       isShare,
       writer: Number(decodedToken?.userId),
     });
-    console.log(newPost);
 
     await addUserPoints(userId + '');
     return new Response(JSON.stringify(newPost), {

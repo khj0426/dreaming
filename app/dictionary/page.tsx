@@ -9,10 +9,21 @@ import Dream from "../components/Dream/Dream";
 import { getSearchDictionary } from "../api/service/search";
 import { getDictionary } from "../api/service/dictionary";
 
+interface Dictionary {
+    id: string;
+    category: string;
+    title: string;
+    contents: string;
+}
+interface Response {
+    total: number;
+    dictionaries: Dictionary[];
+}
+
 function DiaryPage() {
     const [page, setPage] = useState(1); // 현재 페이지
     const [totalPages, setTotalPages] = useState(0); // 총 데이터 수
-    const [data, setData] = useState([]);
+    const [data, setData] = useState<Response | null>(null);
     const [searchKeyword, setSearchKeyword] = useState<string>(""); // 자식에게 받을 검색어
     const [category, setCategory] = useState<string | undefined>(""); // 카테고리 선택
 
@@ -130,7 +141,7 @@ function DiaryPage() {
             {/* 페이지네이션 */}
             <div className={styles.pagination}>
                 <BasicPagination
-                    count={Math.ceil(data?.total / 10)}
+                    count={Math.ceil((data?.total as number) / 10)}
                     page={page}
                     onChange={handleChangePage}
                 />
