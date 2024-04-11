@@ -1,85 +1,81 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["fullTextIndex"]
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
-  
 }
 
-
-
 model Member {
-  //고유키
-  id       String   @id @default(cuid())
-  name     String?
-  email    String?   @unique
-  picture  String?
-  nickname String?
-  point    Int      @default(0)
-  comments Comment[] 
-  diary Diary[]
-  refreshToken String?  @unique 
-  likes Like[]
+  id           String    @id @default(cuid())
+  name         String?
+  email        String?   @unique
+  picture      String?
+  nickname     String?
+  point        Int       @default(0)
+  refreshToken String?   @unique
+  comments     Comment[]
+  diary        Diary[]
+  likes        Like[]
 }
 
 model Like {
-  id       String  @id @default(cuid())
+  id       String @id @default(cuid())
   memberId String
   diaryId  String
-  member   Member?  @relation(fields: [memberId], references: [id])
-  diary    Diary?  @relation(fields: [diaryId], references: [id])
+  diary    Diary  @relation(fields: [diaryId], references: [id])
+  member   Member @relation(fields: [memberId], references: [id])
 
   @@unique([memberId, diaryId])
+  @@index([diaryId], map: "Like_diaryId_fkey")
 }
 
 model Diary {
-
-  id       String    @id @default(cuid())
-  title    String  @db.VarChar(1000)
-  contents String  @db.VarChar(5000)
-  comments Comment[]
-  writerId String
-  writer Member @relation(fields: [writerId],references: [id])
-  like     Like[]
-  isShare  Boolean   @default(true)
-  created_At String?
-  updated_At String?
-  writerName String?
+  id            String    @id @default(cuid())
+  title         String    @db.VarChar(1000)
+  isShare       Boolean   @default(true)
+  created_At    String?
+  updated_At    String?
+  contents      String    @db.VarChar(5000)
+  writerId      String
+  writerName    String?
   writerPicture String?
-  
-  @@fulltext([title,contents])
+  comments      Comment[]
+  writer        Member    @relation(fields: [writerId], references: [id])
+  like          Like[]
+
+  @@index([writerId], map: "Diary_writerId_fkey")
+  @@fulltext([title, contents])
 }
 
-//댓글 모델
 model Comment {
-  //기본키
-  id       String   @id @default(cuid())
-  comment String?
-  //Member의 ID를 writerID로서 참조한다.(외래 키)
-  writer   Member   @relation(fields: [writerId], references: [id])
-  writerId String
-  //parent필드가 다른 Comment를 참조한다. (parentId가 다른 Comment의 id를 참조한다. 외래키)
-  parent   Comment? @relation("ParentChild", fields: [parentId], references: [id], map: "CommentParent_FK")
-  parentId String?
-  //마찬가지
-  children Comment[] @relation("ParentChild")
-  diary    Diary    @relation(fields: [diaryId], references: [id], map: "CommentDiary_FK" ,onDelete: Cascade)
-  diaryId  String
-  created_At String?
-  updated_At String?
-  writerName String?
+  id            String    @id @default(cuid())
+  writerId      String
+  parentId      String?
+  diaryId       String
+  created_At    String?
+  updated_At    String?
+  comment       String?
+  writerName    String?
   writerPicture String?
-}
+  diary         Diary     @relation(fields: [diaryId], references: [id], onDelete: Cascade, map: "CommentDiary_FK")
+  parent        Comment?  @relation("ParentChild", fields: [parentId], references: [id], map: "CommentParent_FK")
+  children      Comment[] @relation("ParentChild")
+  writer        Member    @relation(fields: [writerId], references: [id])
 
+  @@index([diaryId], map: "CommentDiary_FK")
+  @@index([parentId], map: "CommentParent_FK")
+  @@index([writerId], map: "Comment_writerId_fkey")
+}
 
 model Dictionary {
   id       String @id @default(cuid())
   category String
   title    String
-  contents String 
+  contents String
+
   @@index([category])
-  @@fulltext([title,contents])
+  @@fulltext([title, contents])
 }
