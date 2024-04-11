@@ -1,55 +1,83 @@
-import { NextRequest } from 'next/server';
-import { isLengthInRange } from '../../../utils';
+import prisma from '../../prisma/client';
 
-import { getDiariesBySearchKeyword } from '../../lib/diaries';
-import prisma from '../../../prisma/client';
-
-export async function GET(req: NextRequest) {
-  const searchKeyword = req.nextUrl.searchParams.get('search');
-  const page = req.nextUrl.searchParams.get('page');
-
+const getDiariesBySearchKeyword = async (
+  keyword: string,
+  page: number
+) => {
   try {
-    const allKeywords = await getDiariesBySearchKeyword(
-      searchKeyword ?? '',
-      (Number(page) - 1) * 15
-    );
-
-    const likesPromises = allKeywords.diaries.map((diary) =>
-      prisma.like.count({
-        where: { diaryId: diary.id },
-      })
-    );
-
-    if (allKeywords.diaries.length === 0) {
-      return new Response(
-        JSON.stringify({
-          data: '찾는 다이어리가 존재하지 않아요!',
-        }),
-        {
-          status: 404,
-        }
-      );
+    let skip = 0;
+    const take = 15;
+    if (page > 1) {
+      skip = (page - 1) * take;
     }
 
-    const likes = await Promise.all(likesPromises);
+    if (keyword.length === 0) {
+      const total = await prisma.diary.count({
+        where: {
+          isShare: true,
+        },
+      });
 
-    const diariesWithLikes = allKeywords.diaries.map((diary, index) => ({
-      ...diary,
-      likes: likes[index],
-    }));
+      const diaries = await prisma.diary.findMany({
+        where: {
+          isShare: true,
+        },
+        skip,
+        take,
+        orderBy: {
+          updated_At: 'desc',
+        },
+      });
 
-    return new Response(
-      JSON.stringify({
-        diaries: diariesWithLikes,
-        total: allKeywords.total,
-      }),
-      {
-        status: 200,
-      }
-    );
-  } catch (e) {
-    return new Response(JSON.stringify(e), {
-      status: 500,
+      return { diaries, total };
+    }
+
+    const total = await prisma.diary.count({
+      where: {
+        isShare: true,
+        OR: [
+          {
+            title: {
+              contains: keyword,
+            },
+          },
+          {
+            contents: {
+              contains: keyword,
+            },
+          },
+        ],
+      },
     });
+
+    const diaries = await prisma.diary.findMany({
+      where: {
+        isShare: true,
+        OR: [
+          {
+            title: {
+              contains: keyword,
+            },
+          },
+          {
+            contents: {
+              contains: keyword,
+            },
+          },
+        ],
+      },
+      skip,
+      take,
+      orderBy: {
+        updated_At: 'desc',
+      },
+    });
+
+    return { diaries, total };
+  } catch (e) {
+    console.error(e);
+    throw e;
   }
-}
+};
+
+export { getDiariesBySearchKeyword };

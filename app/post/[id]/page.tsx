@@ -62,12 +62,7 @@ function PostPage() {
         (async () => {
             try {
                 const data = await getDiary(diaryId);
-                // 서버로부터 받은 isShare 값을 boolean으로 변환
-                const isShareBoolean = data.isShare === "true" ? true : false;
-                setInputData({
-                    ...data,
-                    isShare: isShareBoolean,
-                });
+                setInputData(data);
                 console.log(data);
             } catch (error) {
                 console.error(
@@ -76,9 +71,7 @@ function PostPage() {
                 );
             }
         })();
-    }, [diaryId]);
-
-    console.log(data);
+    }, []);
 
     return (
         <div className={styles.container}>

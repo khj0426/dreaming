@@ -1,4 +1,5 @@
 import { useSession } from 'next-auth/react';
+import swal from 'sweetalert';
 import React from 'react';
 import styles from './Comment.module.css';
 import { useAxios } from '../../hooks/useAxios';
@@ -26,9 +27,19 @@ const Comment: React.FC<CommentProps> = ({
 }) => {
   // [api] : 댓글 삭제 api
   const session = useSession().data?.user as { sub: string };
-  const handleDelComment = () => {
-    delComment(id);
-    window.location.reload();
+  const handleDelComment = async () => {
+    const result = await swal({
+      title: '삭제하시겠습니까?',
+      text: "삭제를 원하면 '확인'을 누르세요.",
+      icon: 'warning',
+      dangerMode: true,
+    });
+
+    // 사용자가 '확인'을 눌렀다면, 결과는 true가 됩니다.
+    if (result) {
+      delComment(id);
+      window.location.reload();
+    }
   };
   return (
     <div className={styles.container}>
