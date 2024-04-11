@@ -16,6 +16,9 @@ const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
           },
         ],
       },
+      orderBy: {
+        updated_At: 'asc',
+      },
     });
     const getDiariesFromKeyword = await prisma.diary.findMany({
       where: {
@@ -33,6 +36,10 @@ const getDiariesBySearchKeyword = async (keyword: string, page: number) => {
       },
       skip: page,
       take: 15,
+
+      orderBy: {
+        updated_At: 'asc',
+      },
     });
     return { diaries: getDiariesFromKeyword, total: getAllDiaries };
   } catch (e) {

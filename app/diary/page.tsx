@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from "react";
 import styles from "./diary.module.css";
@@ -18,11 +18,11 @@ import { getUser } from "../api/service/user";
 import { useRouter } from "next/navigation";
 
 export interface UserProps {
-    id: string;
-    name: string;
-    nickname: string | null;
-    picture: string | null | undefined;
-    point: number;
+  id: string;
+  name: string;
+  nickname: string | null;
+  picture: string | null | undefined;
+  point: number;
 }
 
 function DiaryPage() {
@@ -31,42 +31,36 @@ function DiaryPage() {
     const [data, setData] = useState<Data | null>(null);
     const [user, setUser] = useState<UserProps | null>(null);
 
-    const handleChangePage = (
-        event: React.ChangeEvent<unknown>,
-        value: number
-    ) => {
-        setPage(value); // 페이지 변경 시 현재 페이지 상태 업데이트
-    };
+  const handleChangePage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value); // 페이지 변경 시 현재 페이지 상태 업데이트
+  };
 
-    // [api] 꿈 일기 목록 get 요청
-    useEffect(() => {
-        (async () => {
-            try {
-                const data = await getDiaryList(page, 5);
-                setData(data);
-            } catch (error) {
-                console.error(
-                    "다이어리 목록을 불러오는 데 실패했습니다.",
-                    error
-                );
-            }
-        })();
-    }, [page]); // 페이지 번호가 변경될 때마다 리렌더링
+  // [api] 꿈 일기 목록 get 요청
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getDiaryList(page, 5);
+        setData(data);
+      } catch (error) {
+        console.error('다이어리 목록을 불러오는 데 실패했습니다.', error);
+      }
+    })();
+  }, [page]); // 페이지 번호가 변경될 때마다 리렌더링
 
-    // [api] 로그인한 유저 정보 get 요청
-    useEffect(() => {
-        (async () => {
-            try {
-                const data = await getUser();
-                setUser(data.user);
-            } catch (error) {
-                console.error(
-                    "다이어리 목록을 불러오는 데 실패했습니다.",
-                    error
-                );
-            }
-        })();
-    }, []);
+  // [api] 로그인한 유저 정보 get 요청
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getUser();
+        setUser(data.user);
+      } catch (error) {
+        console.error('다이어리 목록을 불러오는 데 실패했습니다.', error);
+      }
+    })();
+  }, []);
 
     // [api] 로그아웃
     const handleKakaoLogout = async () => {
@@ -102,38 +96,38 @@ function DiaryPage() {
                 </div>
             </div>
 
-            <div className={styles.postBox}>
-                <p className={styles.postsTitle}>꿈 일기 목록</p>
-                {data?.diaries && data.diaries.length > 0 ? (
-                    data?.diaries.map((d) => (
-                        <Diary
-                            key={d.id}
-                            id={d.id}
-                            title={d.title}
-                            isShare={d.isShare}
-                            contents={d.contents}
-                            like={d?.like?.length}
-                            writerId={d.writerId}
-                            updated_At={d.updated_At}
-                            writerName={d.writerName}
-                            writerImage={d.writerPicture}
-                        />
-                    ))
-                ) : (
-                    <p className={styles.nothing}>등록된 일기가 없습니다.</p>
-                )}
+      <div className={styles.postBox}>
+        <p className={styles.postsTitle}>꿈 일기 목록</p>
+        {data?.diaries && data.diaries.length > 0 ? (
+          data?.diaries.map((d) => (
+            <Diary
+              key={d.id}
+              id={d.id}
+              title={d.title}
+              isShare={d.isShare}
+              contents={d.contents}
+              like={d?.like?.length}
+              writerId={d.writerId}
+              updated_At={d.updated_At}
+              writerName={d.writerName}
+              writerImage={d.writerPicture}
+            />
+          ))
+        ) : (
+          <p className={styles.nothing}>등록된 일기가 없습니다.</p>
+        )}
 
-                {/* 페이지네이션 */}
-                <div className={styles.pagination}>
-                    <BasicPagination
-                        count={Math.ceil((data?.total as number) / 5)}
-                        page={page}
-                        onChange={handleChangePage}
-                    />
-                </div>
-            </div>
+        {/* 페이지네이션 */}
+        <div className={styles.pagination}>
+          <BasicPagination
+            count={Math.ceil((data?.total as number) / 5)}
+            page={page}
+            onChange={handleChangePage}
+          />
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default DiaryPage;
