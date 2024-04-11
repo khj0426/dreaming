@@ -8,8 +8,6 @@ export async function GET(req: NextRequest) {
   const searchKeyword = req.nextUrl.searchParams.get('search');
   const page = req.nextUrl.searchParams.get('page');
 
-
-
   try {
     const allKeywords = await getDiariesBySearchKeyword(
       searchKeyword ?? '',
