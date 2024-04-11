@@ -8,6 +8,7 @@ import "aos/dist/aos.css";
 import AuthProvider from "./components/Next-Auth";
 const inter = Inter({ subsets: ["latin"] });
 
+import Head from "next/head";
 import Navbar from "./components/Navbar/Navbar";
 import Script from "next/script";
 import { usePathname, useRouter } from "next/navigation";
@@ -15,6 +16,7 @@ import { useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import styles from "../styles/mediaLayout.module.css";
 import Mobile from "./components/Mobile/Mobile";
+import { metadata } from "./metadata";
 
 declare global {
     interface Window {
@@ -39,21 +41,27 @@ export default function RootLayout({
     }, []);
 
     return (
-        <html lang="en">
-            <body className={inter.className}>
-                <AuthProvider>
-                    {isMobile ? (
-                        <>
-                            {children}
-                            {pathname !== "/login" && pathname !== "/" ? (
-                                <Navbar />
-                            ) : null}
-                        </>
-                    ) : (
-                        <Mobile />
-                    )}
-                </AuthProvider>
-            </body>
-        </html>
+        <>
+            <Head>
+                <title>{metadata.title}</title>
+                <meta name="description" content={metadata.description} />
+            </Head>
+            <html lang="en">
+                <body className={inter.className}>
+                    <AuthProvider>
+                        {isMobile ? (
+                            <>
+                                {children}
+                                {pathname !== "/login" && pathname !== "/" ? (
+                                    <Navbar />
+                                ) : null}
+                            </>
+                        ) : (
+                            <Mobile />
+                        )}
+                    </AuthProvider>
+                </body>
+            </html>
+        </>
     );
 }
