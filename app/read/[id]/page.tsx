@@ -93,11 +93,7 @@ function ReadPage() {
 
     // [api] 글 수정
     const handlePostPatch = (event: React.MouseEvent<HTMLDivElement>) => {
-        // const isConfirmed = window.confirm("글을 삭제하시겠습니까?");
-        // if (isConfirmed) {
-        //     deleteDiary(pathname);
-        //     router.back();
-        // }
+        router.push(`/post/${data?.id}`);
     };
 
     // [api] 로그인한 유저 정보 get 요청

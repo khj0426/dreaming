@@ -1,5 +1,6 @@
 import axios from "axios";
 import { GET } from "../refresh_token/route";
+import { axiosInstance } from "../../lib/api";
 
 /*
 <diary 관련 api>
@@ -31,9 +32,9 @@ export const getDiaryList = async (page: number, pageSize: number) => {
 };
 
 // [get] 유저의 특정 다이어리 조회
-export const getDiary = async (diaryId: number) => {
+export const getDiary = async (diaryId: string) => {
     try {
-        const response = await axios({
+        const response = await axiosInstance({
             method: "GET",
             url: `/api/diary/${diaryId}`,
         });
@@ -74,10 +75,10 @@ export const postDiary = async (
 
 // [patch] 일기 수정하기
 export const patchDiary = async (
-    diaryId: number,
+    diaryId: string,
     title: string,
     content: string,
-    isShare: string
+    isShare: boolean
 ) => {
     try {
         // 요청 : title / content / isShare
