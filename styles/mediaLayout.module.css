@@ -1,0 +1,12 @@
+/* 모바일 반응형 */
+.mediaCotainer {
+    width: 100%;
+    height: auto;
+}
+
+@media (min-width: 768px) {
+    .mediaCotainer {
+        width: 450px;
+        height: 1000px;
+    }
+}

@@ -12,12 +12,20 @@ import Diary, { DiaryProps } from '../components/Diary/Diary';
 import BasicPagination from '../components/BasicPagination';
 import { useAxios } from '../hooks/useAxios';
 import { getDiaryList } from '../api/service/diary';
+import { getUser } from '../api/service/user';
+
+export interface UserProps {
+  id: string;
+  name: string;
+  nickname: string | null;
+  picture: string | null | undefined;
+  point: number;
+}
 
 function DiaryPage() {
   const [page, setPage] = useState(1); // 현재 페이지
-  // cosnt [pagesize, setPagezize]
-  const [totalPages, setTotalPages] = useState(0); // 총 데이터 수
   const [data, setData] = useState<Data | null>(null);
+  const [user, setUser] = useState<UserProps[]>([]);
 
   const handleChangePage = (
     event: React.ChangeEvent<unknown>,
@@ -38,7 +46,17 @@ function DiaryPage() {
     })();
   }, [page]); // 페이지 번호가 변경될 때마다 리렌더링
 
-  console.log(data);
+  // [api] 로그인한 유저 정보 get 요청
+  useEffect(() => {
+    (async () => {
+      try {
+        const data = await getUser();
+        setUser(data.user);
+      } catch (error) {
+        console.error('다이어리 목록을 불러오는 데 실패했습니다.', error);
+      }
+    })();
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -46,9 +64,9 @@ function DiaryPage() {
         <div className={styles.userBox}>
           <p className={styles.hello}>반가워요!</p>
           <div className={styles.user}>
-            <p className={styles.username}>user-1010 님</p>
+            <p className={styles.username}>{user.name} 님</p>
             <p className={styles.point}>
-              <GrMoney /> <p>1000 p</p>
+              <GrMoney /> <p>{user.point} p</p>
             </p>
           </div>
         </div>

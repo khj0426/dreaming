@@ -100,7 +100,7 @@ export const patchDiary = async (
 };
 
 // [delete] 일기 삭제하기
-export const deleteDiary = async (diaryId: number) => {
+export const deleteDiary = async (diaryId: string) => {
     try {
         const response = await axios({
             method: "DELETE",

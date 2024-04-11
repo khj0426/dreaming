@@ -16,6 +16,7 @@
 
 .title {
     font-size: 1.1rem;
+    font-weight: bold !important;
     color: var(--font_color_blue);
 
     display: flex;

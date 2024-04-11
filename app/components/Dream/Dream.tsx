@@ -15,7 +15,11 @@ export interface DreamProps {
 
 const Dream = ({ id, category, title, contents }: DreamType) => {
     return (
-        <div className={styles.container}>
+        <div
+            className={styles.container}
+            data-aos="fade-up"
+            data-aos-duration="1500"
+        >
             <p className={styles.title}>{title}</p>
             <p className={styles.content}>{contents}</p>
         </div>

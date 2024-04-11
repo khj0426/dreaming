@@ -31,6 +31,7 @@
 
 .username {
     font-size: 1.5rem;
+    font-weight: bold !important;
     color: var(--font_color_yellow);
 }
 
@@ -48,6 +49,7 @@
 
 .point > p {
     margin-left: 0.3rem;
+    font-weight: bold !important;
 }
 
 .user {
@@ -72,6 +74,7 @@
 
 .postsTitle {
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     color: var(--main_color);
 }
 

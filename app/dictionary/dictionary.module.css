@@ -31,14 +31,13 @@
 
 .dictionaryTitle {
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     color: white;
 }
 
 .categories {
     width: 80vw;
     margin-top: 2vh;
-
-    /* background-color: red; */
 
     display: flex;
     overflow-x: scroll;

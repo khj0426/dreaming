@@ -34,6 +34,7 @@
 
 .searchTitle {
     font-size: var(--font_size_title);
+    font-weight: bold !important;
     color: var(--main_color);
 }
 
