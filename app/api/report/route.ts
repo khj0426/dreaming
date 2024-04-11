@@ -35,10 +35,11 @@ export async function GET(req: NextRequest) {
       allCount: posts.total,
       sharedCount: posts.sharedDiaries,
       notSharedCount: posts.notSharedDiaries,
+      allUserCount: posts.sharedDiaries + posts.notSharedDiaries,
       likeCount: likes,
       commentCount: comments,
     };
-    return NextResponse.json(JSON.stringify(Response), {
+    return NextResponse.json(Response, {
       status: 200,
     });
   } catch (e) {

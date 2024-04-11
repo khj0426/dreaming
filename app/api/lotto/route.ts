@@ -5,6 +5,7 @@ import createNewLottoNumber from '../../lib/lotto';
 import prisma from '../../../prisma/client';
 
 export async function GET(req: NextRequest) {
+  console.log(req);
   try {
     const userId = verifyToken(
       cookies().get('dreaming_accessToken')?.value ?? ''
@@ -22,6 +23,8 @@ export async function GET(req: NextRequest) {
   const userId = verifyToken(
     cookies().get('dreaming_accessToken')?.value ?? ''
   ).userId;
+
+  console.log('하');
   try {
     const newLottoNum = await createNewLottoNumber(userId + '');
     const getPoint = await prisma.member.findUnique({
@@ -29,6 +32,7 @@ export async function GET(req: NextRequest) {
         id: userId + '',
       },
     });
+    console.log(getPoint);
     if (getPoint && getPoint.point >= 300)
       await prisma.member.update({
         where: {
@@ -38,6 +42,7 @@ export async function GET(req: NextRequest) {
           point: getPoint?.point - 300,
         },
       });
+    console.log(getPoint);
     return new Response(JSON.stringify(newLottoNum), {
       status: 200,
     });
