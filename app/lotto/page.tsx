@@ -10,6 +10,7 @@ import { getLotto } from "../api/service/lotto";
 
 function LottoPage() {
     const [user, setUser] = useState<UserProps | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
     const [lotto, setLotto] = useState<number[]>([]);
 
     // 애니메이션 활성화 상태
@@ -17,37 +18,45 @@ function LottoPage() {
 
     // 버튼 클릭 이벤트 핸들러
     const handlePlayButtonClick = useCallback(async () => {
-        const result = await swal({
-            title: "300포인트를 사용하여 이번 주 번호를 추첨받으시겠습니까?",
-            icon: "info",
-            dangerMode: true,
-        });
+        if ((user?.point as number) >= 300) {
+            const result = await swal({
+                title: "300포인트를 사용하여 이번 주 번호를 추첨받으시겠습니까?",
+                icon: "info",
+                dangerMode: true,
+            });
 
-        if (result) {
-            setIsAnimating(true);
+            if (result) {
+                setIsAnimating(true);
 
-            // [api] 랜덤 로또 번호 get (애니메이션으로 살짝 딜레이)
-            setTimeout(() => {
-                (async () => {
-                    try {
-                        const data = await getLotto();
-                        setLotto(data);
-                        console.log(data);
-                    } catch (error) {
-                        console.error(
-                            "로또 추천 번호를 불러오는 데 실패했습니다.",
-                            error
-                        );
-                    }
-                })();
-            }, 2500);
+                // [api] 랜덤 로또 번호 get (애니메이션으로 살짝 딜레이)
+                setTimeout(() => {
+                    (async () => {
+                        try {
+                            const data = await getLotto();
+                            setLotto(data);
+                            console.log(data);
+                        } catch (error) {
+                            console.error(
+                                "로또 추천 번호를 불러오는 데 실패했습니다.",
+                                error
+                            );
+                        }
+                    })();
+                }, 2500);
 
-            // 3초 후 다시 false
-            setTimeout(() => {
-                setIsAnimating(false);
-            }, 3000);
+                // 3초 후 다시 false
+                setTimeout(() => {
+                    setIsAnimating(false);
+                }, 3000);
+            }
+        } else {
+            swal({
+                title: "포인트가 부족합니다.",
+                icon: "error",
+                dangerMode: true,
+            });
         }
-    }, []);
+    }, [user]);
 
     // [api] 로그인한 유저 정보 get 요청
     useEffect(() => {
@@ -55,12 +64,13 @@ function LottoPage() {
             try {
                 const data = await getUser();
                 setUser(data.user);
+                setLoading(true);
             } catch (error) {
                 console.error("유저 정보를 불러오는 데 실패했습니다.", error);
             }
         })();
         // 포인트 차감 후 리렌더링
-    }, [lotto]);
+    }, [loading, lotto]);
 
     // 로또 번호 7개 추천
 

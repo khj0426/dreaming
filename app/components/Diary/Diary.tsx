@@ -49,7 +49,11 @@ const Diary = ({
                     {title}
                     {!isShare ? <MdLock className={styles.lockIcon} /> : null}
                 </p>
-                <p className={styles.content}>{contents}</p>
+                <p className={styles.content}>
+                    {contents.length >= 55
+                        ? contents.slice(0, 55) + " ..."
+                        : contents}
+                </p>
                 <div className={styles.postFooter}>
                     <div className={styles.postInfo}>
                         <p>

@@ -105,21 +105,28 @@ function ReadPage() {
                 // 여기서 data?.writerName은 API로부터 받은 꿈 일기의 작성자 이름을 가리킵니다.
                 // userData.user.name은 로그인한 유저의 이름입니다.
                 // 이 두 값을 비교하여 owner 상태를 업데이트합니다.
-                if (data?.writerName && userData.user) {
-                    setOwner(userData.user.name === data.writerName);
+                console.log(userData);
+
+                if (data?.writerId === userData.id) {
+                    // }
+                    // if (data?.writerName && userData.user) {
+                    setOwner(true);
+                    console.log("dfdf");
                 }
                 setUser(userData.user);
             } catch (error) {
                 console.error("유저 정보를 불러오는데 실패했습니다.", error);
             }
         };
-    });
+        checkOwner();
+    }, []);
 
     // [api] 글 수정
     const handlePostPatch = (event: React.MouseEvent<HTMLDivElement>) => {
         router.push(`/post/${data?.id}`);
     };
 
+    console.log(owner);
     return (
         <div className={styles.container}>
             <div className={styles.postBox}>
