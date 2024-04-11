@@ -120,10 +120,10 @@ function ReadPage() {
       }
     };
 
-    if (data) {
-      checkOwner(); // data가 있을 때만 checkOwner 함수를 호출합니다.
-    }
-  }, [data]); // 의존성 배열에 data를 추가하여, data가 변경될 때마다 이 useEffect가 실행되도록 합니다.
+    // [api] 글 수정
+    const handlePostPatch = (event: React.MouseEvent<HTMLDivElement>) => {
+        router.push(`/post/${data?.id}`);
+    };
 
   return (
     <div className={styles.container}>
