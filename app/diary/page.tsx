@@ -29,7 +29,7 @@ function DiaryPage() {
     const router = useRouter();
     const [page, setPage] = useState(1); // 현재 페이지
     const [data, setData] = useState<Data | null>(null);
-    const [user, setUser] = useState<UserProps[]>([]);
+    const [user, setUser] = useState<UserProps | null>(null);
 
     const handleChangePage = (
         event: React.ChangeEvent<unknown>,
@@ -85,14 +85,14 @@ function DiaryPage() {
                     <p className={styles.hello}>반가워요!</p>
                     <div className={styles.user}>
                         <div className={styles.usernameBox}>
-                            <p className={styles.username}>{user.name} 님</p>
+                            <p className={styles.username}>{user?.name} 님</p>
                             <HiOutlineLogout
                                 className={styles.logoutBtn}
                                 onClick={handleKakaoLogout}
                             />
                         </div>
                         <p className={styles.point}>
-                            <GrMoney /> <p>{user.point} p</p>
+                            <GrMoney /> <p>{user?.point} p</p>
                         </p>
                     </div>
                 </div>
