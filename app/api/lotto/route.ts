@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
     cookies().get('dreaming_accessToken')?.value ?? ''
   ).userId;
   try {
-    const newLottoNum = await createNewLottoNumber(userId);
+    const newLottoNum = await createNewLottoNumber(userId + '');
     return new Response(JSON.stringify(newLottoNum), {
       status: 502,
     });
