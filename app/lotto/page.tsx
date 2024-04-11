@@ -23,23 +23,21 @@ function LottoPage() {
         if (isConfirmed) {
             setIsAnimating(true);
 
-            // [api] 랜덤 로또 번호 get
+            // [api] 랜덤 로또 번호 get (애니메이션으로 살짝 딜레이)
             setTimeout(() => {
-                setLotto(generateLottoNumbers());
+                (async () => {
+                    try {
+                        const data = await getLotto();
+                        setLotto(data);
+                        console.log(data);
+                    } catch (error) {
+                        console.error(
+                            "로또 추천 번호를 불러오는 데 실패했습니다.",
+                            error
+                        );
+                    }
+                })();
             }, 2500);
-
-            // (async () => {
-            //     try {
-            //         const data = await getLotto();
-            //         setLotto(data);
-            //         console.log(data);
-            //     } catch (error) {
-            //         console.error(
-            //             "로또 추천 번호를 불러오는 데 실패했습니다.",
-            //             error
-            //         );
-            //     }
-            // })();
 
             // 3초 후 다시 false
             setTimeout(() => {
@@ -58,22 +56,8 @@ function LottoPage() {
                 console.error("유저 정보를 불러오는 데 실패했습니다.", error);
             }
         })();
-    }, []);
-
-    // [api] 랜덤 로또 번호 get
-    // useEffect(() => {
-    //     (async () => {
-    //         try {
-    //             const data = await getLotto();
-    //             setLotto(data);
-    //         } catch (error) {
-    //             console.error(
-    //                 "로또 추천 번호를 불러오는 데 실패했습니다.",
-    //                 error
-    //             );
-    //         }
-    //     })();
-    // }, []);
+        // 포인트 차감 후 리렌더링
+    }, [lotto]);
 
     // 로또 번호 7개 추천
     const generateLottoNumbers = () => {
