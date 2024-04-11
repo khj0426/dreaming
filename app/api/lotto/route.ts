@@ -24,7 +24,7 @@ export async function GET(req: NextRequest) {
   try {
     const newLottoNum = await createNewLottoNumber(userId + '');
     return new Response(JSON.stringify(newLottoNum), {
-      status: 502,
+      status: 200,
     });
   } catch (e) {
     return new Response(
