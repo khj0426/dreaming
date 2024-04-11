@@ -1,5 +1,5 @@
-'use client';
-import MainPage from './main/page';
+"use client";
+import LoginPage from "./login/page";
 export default function Home() {
-  return <MainPage />;
+    return <LoginPage />;
 }
