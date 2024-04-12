@@ -5,7 +5,7 @@ import Link from "next/link";
 
 function LinkToReport() {
     return (
-        <Link href="/dictionary">
+        <Link href="/report">
             <div className={styles.container}>
                 <div className={styles.instructions}>
                     <p className={styles.title}>드리밍 리포트</p>

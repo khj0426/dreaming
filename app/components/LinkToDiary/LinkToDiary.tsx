@@ -12,9 +12,7 @@ function LinkToDiary() {
                 </div>
                 <div className={styles.instructions}>
                     <p className={styles.title}>꿈 다이어리</p>
-                    <p className={styles.subTitle}>
-                        오늘은 어떤 꿈을 꾸셨나요?
-                    </p>
+                    <p className={styles.subTitle}>오늘, 어떤 꿈을 꾸셨나요?</p>
                 </div>
             </div>
         </Link>
