@@ -19,7 +19,9 @@ interface KakaoUser extends DefaultUser {
 }
 
 const handler = NextAuth({
-    
+    pages: {
+        signIn: "/login",
+    },
     session: {
         strategy: "jwt",
         //하루 동안 세션 유지
