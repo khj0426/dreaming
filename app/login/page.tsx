@@ -6,10 +6,7 @@ import styles from './login.module.css';
 import { signIn } from 'next-auth/react';
 function login() {
   const handleKakaoLogin = async () => {
-    await signIn('kakao', {
-      redirect: true,
-      callbackUrl: '/main',
-    });
+    await signIn('kakao');
   };
   return (
     <div className={styles.container}>
